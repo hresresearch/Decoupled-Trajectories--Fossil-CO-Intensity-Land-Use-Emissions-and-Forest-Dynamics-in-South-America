@@ -1,0 +1,25 @@
+variable,description,source,unit
+iso3,Country ISO3 code,"Multiple (CEPALSTAT, FAOSTAT, World Bank)",-
+year,Calendar year,Multiple,year
+forest_area_kha,Forest area,CEPALSTAT indicator 2036,thousand hectares
+co2_per_gdp_kg_per_usd,CO2 emissions per unit of GDP PPP (constant 2017 USD),CEPALSTAT indicator 3914,kg CO2 / USD
+agriculture_value_added_share_gdp_pct,Agriculture value added as share of GDP,CEPALSTAT indicator 3745,percent
+gdp_per_capita_ppp_const2017,"GDP per capita, PPP (constant 2017 international dollars)",World Bank NY.GDP.PCAP.PP.KD,2017 international USD per capita
+hydro_electricity_share_pct,"Electricity production from hydroelectric sources, share of total",World Bank EG.ELC.HYRO.ZS,percent
+electricity_share_coal_pct,"Electricity production from coal sources, share of total",World Bank EG.ELC.COAL.ZS,percent
+electricity_share_gas_pct,"Electricity production from natural gas sources, share of total",World Bank EG.ELC.NGAS.ZS,percent
+electricity_share_renewables_excl_hydro_pct,"Electricity production from renewables excluding hydro, share of total",World Bank EG.ELC.RNWX.ZS,percent
+electrification_rate_pct,"Access to electricity, total",World Bank EG.ELC.ACCS.ZS,percent of population
+soy_area_kha,Soy harvested area,"FAOSTAT Production Crops & Livestock (Item Code 236, Element 5312)",thousand hectares
+sugarcane_area_kha,Sugarcane harvested area,"FAOSTAT Production Crops & Livestock (Item Code 156, Element 5312)",thousand hectares
+pasture_area_kha,Permanent meadows and pastures area,"FAOSTAT Inputs LandUse (Item Code 6655, Element 5110)",thousand hectares
+fertilizer_use_kg_per_ha,Nitrogen fertilizer application rate,"FAOSTAT Inputs Fertilizers by Nutrient (Item Code 3102, Element 5157)",kg nutrient per hectare
+lulucf_total_kt_co2eq,Total LULUCF net GHG emissions,"FAOSTAT Emissions Totals (Item Code 1707, Element 723113)",kilotonnes CO2eq
+population_total,Total population,World Bank SP.POP.TOTL,persons
+population_density,Population density,World Bank EN.POP.DNST,people per sq. km of land area
+delta_forest_pct,Decadal percentage change in forest area,Computed from forest_area_kha,percent
+delta_co2_intensity_abs,Decadal absolute change in CO2 intensity per GDP,Computed from co2_per_gdp_kg_per_usd,kg CO2 / USD
+delta_lulucf_per_capita_t_co2eq,Decadal change in LULUCF emissions per capita,Computed from lulucf_total_kt_co2eq and population_total,tonnes CO2eq per capita
+delta_hydro_share_pct,Decadal change in hydro electricity share,Computed from hydro_electricity_share_pct,percentage points
+delta_gdp_per_capita,Decadal change in GDP per capita PPP,Computed from gdp_per_capita_ppp_const2017,2017 international USD per capita
+delta_agri_share_pct,Decadal change in agriculture value added share of GDP,Computed from agriculture_value_added_share_gdp_pct,percentage points
