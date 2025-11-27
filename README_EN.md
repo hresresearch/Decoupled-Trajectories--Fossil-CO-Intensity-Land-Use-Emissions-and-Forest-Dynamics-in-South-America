@@ -1,30 +1,44 @@
 # Decoupled Trajectories: Fossil CO₂ Intensity, Land‑Use Emissions and Forest Dynamics in South America
 
-This repository contains data and scripts for a comparative country‑level analysis of how fossil CO₂ intensity of GDP, land‑use, land‑use change and forestry (LULUCF) emissions and forest area have evolved in twelve South American countries between 2000 and 2020.
+This repository contains the reproducible data pipeline for the project “Decoupled Trajectories: Fossil CO₂ Intensity, Land‑Use Emissions and Forest Dynamics in South America (2000–2020).” It focuses on three deliverables:
 
-The project combines harmonised official statistics from CEPALSTAT, the World Bank’s World Development Indicators and FAOSTAT to construct:
-- an annual country–year panel for 2000, 2010 and 2020, and
-- a decadal‑change panel for 2000–2010 and 2010–2020.
+1. Harmonised source data from CEPALSTAT, World Development Indicators and FAOSTAT.
+2. Analysis‑ready tables that summarise country‑level dynamics in fossil CO₂ intensity, forest area and LULUCF emissions.
+3. Python scripts that rebuild the panels, export public versions of the data and regenerate the article figures.
 
-Using these panels, the study estimates simple linear regressions that relate:
-- decadal changes in fossil CO₂ intensity of GDP to changes in forest area, the hydropower share of electricity generation and GDP per capita, and
-- decadal changes in per‑capita LULUCF emissions to changes in forest area and the agriculture value added share of GDP.
+The study compares twelve South American countries at three benchmark years (2000, 2010, 2020) and across two decades of change (2000–2010, 2010–2020). With these panels we estimate linear regressions that link:
+- decadal changes in fossil CO₂ intensity of GDP to forest area change, shifts in the electricity mix and income growth, and
+- decadal changes in per‑capita LULUCF emissions to forest dynamics and the agriculture share of GDP.
 
-The main empirical findings are:
-- fossil CO₂ emissions per unit of GDP declined in most South American countries and are significantly associated with changes in the electricity mix and income growth, but not with decadal percentage changes in forest area once energy and income dynamics are controlled for;
-- decadal changes in per‑capita LULUCF emissions are closely associated with forest area dynamics and with the agriculture share of GDP, with forest loss linked to larger increases in per‑capita LULUCF emissions and declining agriculture shares linked to more favourable LULUCF trajectories;
-- simple regional clusters (agricultural Southern Cone, Andean and Amazon‑frontier, and other countries) illustrate that low or declining fossil CO₂ intensity of GDP can coexist with substantial forest loss or mixed forest trends.
-
-Taken together, the results show that energy‑sector decarbonisation and land‑use emissions have followed distinct, though interconnected, trajectories in South America. Standard climate performance indicators that rely solely on fossil CO₂ intensity of GDP may overstate mitigation progress in forest‑rich economies where land‑use emissions remain substantial.
+The main takeaway is that energy decarbonisation and land‑use mitigation have advanced on different—sometimes diverging—paths. Countries may post low fossil CO₂ intensity while still experiencing forest loss and LULUCF hotspots; therefore mitigation dashboards need to track both fossil and land‑use components to capture real progress.
 
 ## Repository structure
 
-- `article/data/` – analysis‑ready panels used in the paper:
-  - `master_forest_energy_analysis_panel.csv` – country–year panel for 2000, 2010, 2020.
+- `data_cepal/` – raw pulls from CEPALSTAT plus intermediate joins (ZIP files) and enriched CSV panels that feed the models.
+- `data_article/` – public analysis tables cited in the manuscript:
+  - `master_forest_energy_analysis_panel.csv` – country–year panel (2000, 2010, 2020) with energy, land‑use and socioeconomic indicators.
   - `south_america_delta_panel_analysis.csv` – decadal‑change panel for 2000–2010 and 2010–2020.
-  - `variables_codebook.csv` – variable names, descriptions, sources and units.
-- `data_cepal/` – source and intermediate data from the CEPALSTAT‑centred ETL pipeline.
-- `article/scripts/` – Python scripts to build the analysis panels and article figures.
+  - `variables_codebook.csv` – plain‑language descriptions and units.
+- `scripts/` – complete ETL and modelling toolchain. Highlights:
+  - `build_master_panel.py`, `build_extended_forest_energy_panel.py`, `build_variables_codebook.py` – construct the main tables under `data_cepal/` and `data_article/`.
+  - `*_extension.py` modules – add governance, trade, socio‑economic and energy‑mix covariates.
+  - `build_article_figures.py` – reads `data_article/` and recreates the figures cited in the article, saving PNGs under `article/figures/` (the folder stays local/ignored).
+  - `regression_models.py` – helper routines used to estimate the relationships discussed in the text.
 
-Additional documentation of the ETL steps and methods is provided in `article/methods_full_draft.md` and `article/methods.md`.
+## Usage
 
+1. Create a Python environment with the dependencies you normally use for pandas/matplotlib (e.g. `python -m venv .venv && source .venv/bin/activate` followed by `pip install pandas numpy matplotlib`).
+2. Run the build scripts in `scripts/` to refresh data:
+   ```bash
+   python scripts/build_master_panel.py
+   python scripts/build_extended_forest_energy_panel.py
+   python scripts/build_variables_codebook.py
+   ```
+   These will recreate the CSVs in `data_cepal/` and export the public subset into `data_article/`.
+3. (Optional) Recreate the publication figures:
+   ```bash
+   python scripts/build_article_figures.py
+   ```
+   Outputs will land in `article/figures/` locally.
+
+Each script logs its progress through the shared `cepalstat_client.logger`. Refer to the docstrings inside `scripts/` for argument details and processing notes.
